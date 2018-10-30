@@ -1,0 +1,19 @@
+---
+# vim: set ft=ansible et ts=2 sw=2:
+#
+# Get facts about vmware env
+- hosts: 10.139.122.40 
+  connection: local
+  gather_facts: False
+  remote_user: root 
+
+  tasks:
+      - name: get facts
+        vmware_vm_facts:
+          hostname: 10.139.122.40
+          username: administrator@vsphere.local 
+          password: Oasis360!
+          vm_type: template
+          validate_certs: False
+        delegate_to: localhost
+        register: vm_facts
