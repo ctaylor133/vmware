@@ -8,9 +8,9 @@
   gather_facts: false
   connection: local
   vars:
-    vcenter_hostname: 10.139.122.40
-    esxhost: 10.139.122.36
-    datastore: 10.139.122.36
+    vcenter_hostname: 
+    esxhost: 
+    datastore: 
     network: "VMware"
     vmtemplate: "Template - W2012R2 S2012" 
     vmcluster: LAN
@@ -27,21 +27,21 @@
     - name: Create VM from template
       vmware_guest:
         validate_certs: False
-        hostname: 10.139.122.40 
-        username: administrator@vsphere.local
-        password: Oasis360!
-        esxi_hostname: 10.139.122.36
+        hostname:  
+        username: 
+        password: 
+        esxi_hostname: 
         datacenter: Datacenter
         folder: Templates
         name: "{{ item }}"
         annotation: Created by ansible
         template: "{{ vmtemplate }}"
         networks:
-        - name: Oasis360
+        - name: 
           type: static
           ip: "{{ vm_ip }}"
           netmask: 255.255.255.0
-          gateway: 10.139.123.1
+          gateway: 
         hardware:
           memory_mb: "{{ vm_memory }}"
         wait_for_ip_address: True
@@ -49,4 +49,4 @@
       register: newvm
       with_items:
          - TestVM1
-         #- TestVM2
+         - TestVM2
