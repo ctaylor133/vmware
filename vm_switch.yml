@@ -1,0 +1,42 @@
+---
+# vim: set ft=ansible et ts=2 sw=2:
+#
+#
+- hosts: esxi
+  connection: local
+  gather_facts: False
+  remote_user: root
+
+  tasks:
+      - name: Add a VMware vSwitch
+        action:
+          module: vmware_vswitch
+          hostname: "{{ host }}"
+          username: root
+          password: "{{ password }}" 
+          switch: vSwitch2
+          validate_certs: False
+          nics: 
+          - vmnic3
+          - vmnic4
+          - vmnic5
+          - vmnic7
+          - vmnic8
+          - vmnic9
+          mtu: 1500
+        delegate_to: localhost
+
+
+      - name: Add 2nd VMware vSwitch
+        action:
+          module: vmware_vswitch
+          hostname: "{{ host }}"
+          username: root
+          password: "{{ password }}"
+          switch: vSwitch1
+          validate_certs: False
+          nics: 
+          - vmnic1
+          - vmnic6
+          mtu: 1500
+        delegate_to: localhost
