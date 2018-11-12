@@ -8,7 +8,7 @@
   gather_facts: false
   connection: local
   vars:
-    vcenter_hostname: 10.139.122.40 
+    vcenter_hostname: <ip address>
     esxhost: "{{ host }}" 
     datastore: "{{ host }}"
     network: "Oasis360"
@@ -27,7 +27,7 @@
     - name: Create VM from template
       vmware_guest:
         validate_certs: False
-        hostname: 10.139.122.40  
+        hostname: <ip address>
         username: "{{ user }}"
         password: "{{ password }}"
         esxi_hostname: "{{ host }}"
