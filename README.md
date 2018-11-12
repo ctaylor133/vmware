@@ -1,6 +1,6 @@
 # vmware
 
-Currently running and hosting these playbooks from an CentOS 7.5 VM - running on my Work Laptop. 
+Currently running and hosting these playbooks from a CentOS 7.5 VM - running on my Work Laptop. 
 
 Update /etc/ansible/hosts with the vCenter ip address
 
