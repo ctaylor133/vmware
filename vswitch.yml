@@ -50,7 +50,7 @@
         portgroup_name: vMotion
         network:
           type: 'static'
-          ip_address: 10.15.30.11
+          ip_address: 
           subnet_mask: 255.255.255.0
         state: present
         enable_vmotion: True
@@ -69,7 +69,7 @@
         portgroup_name: vMotion
         network:
           type: 'static'
-          ip_address: 10.15.30.12
+          ip_address: 
           subnet_mask: 255.255.255.0
         state: present
         enable_vmotion: True
