@@ -1,0 +1,77 @@
+---
+- name: Vswitch creation
+  hosts: esxi
+  gather_facts: false
+  connection: local
+  vars_files: vsphere_vars.yml
+  tasks:
+
+    - name: Add Oasis-Servers port group
+      vmware_portgroup:
+        hostname: "{{ vcenter_hostname }}"
+        username: "{{ vcenter_username }}"
+        password: "{{ vcenter_password }}"
+        validate_certs: no
+        cluster_name: Oasis360
+        switch_name: vSwitch0
+        portgroup_name: Oasis-Servers
+        vlan_id: 360
+
+    - name: Add Poller01 port group
+      vmware_portgroup:
+        hostname: "{{ vcenter_hostname }}"
+        username: "{{ vcenter_username }}"
+        password: "{{ vcenter_password }}"
+        validate_certs: no
+        cluster_name: Oasis360
+        switch_name: vSwitch0
+        portgroup_name: Poller01
+        vlan_id: 364
+
+    - name: Add vMotion port group
+      vmware_portgroup:
+        hostname: "{{ vcenter_hostname }}"
+        username: "{{ vcenter_username }}"
+        password: "{{ vcenter_password }}"
+        validate_certs: no
+        cluster_name: Oasis360
+        switch_name: vSwitch0
+        portgroup_name: vMotion
+        vlan_id: 330
+
+    - name: Add vMotion vSwitch
+      vmware_vmkernel:
+        esxi_hostname: "{{ hostname }}"
+        hostname: "{{ vcenter_hostname }}"
+        username: "{{ vcenter_username }}"
+        password: "{{ vcenter_password }}"
+        validate_certs: no
+        vswitch_name: vSwitch0
+        portgroup_name: vMotion
+        network:
+          type: 'static'
+          ip_address: 10.15.30.11
+          subnet_mask: 255.255.255.0
+        state: present
+        enable_vmotion: True
+      delegate_to: localhost
+
+
+
+    - name: Add vMotion vSwitch host2
+      vmware_vmkernel:
+        esxi_hostname: "{{ hostname_2 }}"
+        hostname: "{{ vcenter_hostname }}"
+        username: "{{ vcenter_username }}"
+        password: "{{ vcenter_password }}"
+        validate_certs: no
+        vswitch_name: vSwitch0
+        portgroup_name: vMotion
+        network:
+          type: 'static'
+          ip_address: 10.15.30.12
+          subnet_mask: 255.255.255.0
+        state: present
+        enable_vmotion: True
+      delegate_to: localhost
+
