@@ -1,0 +1,52 @@
+---
+- name: VM from iso
+  hosts: esxi
+  gather_facts: false
+  connection: local
+  vars_files: vsphere_vars.yml
+  tasks:
+
+  - name: remove nic from vm
+    vmware_guest_network:
+      hostname: "{{ vcenter_hostname }}"
+      username: "{{ vcenter_username }}"
+      password: "{{ vcenter_password }}"
+      validate_certs: False
+      datacenter: "{{ datacenter }}"
+      name: "{{ item }}"
+      networks:
+        #- name: "{{ network }}"
+        - state: present
+          device_type: vmxnet3
+          name: Oasis-Servers
+          label: "Network adapter 1"
+          connected: false
+          start_connected: false
+          #connected: false
+    with_items:
+      - "{{ groups['can'] }}"
+
+  - name: Change templated VM
+    #vmware_guest:
+    community.vmware.vmware_guest:
+      validate_certs: False
+      hostname: "{{ vcenter_hostname }}"
+      username: "{{ vcenter_username }}"
+      password: "{{ vcenter_password }}"
+      esxi_hostname: "{{ esxhost }}"
+      datacenter: "{{ datacenter }}"
+      state: poweredon
+      folder: vm
+      name: "{{ item }}"
+      template: "{{ vmtemplate }}"
+      cdrom:
+        type: iso
+        iso_path: "{{ iso_path }}"
+        state: new
+      datastore: "{{ datastore }}"
+      customization:
+        dns_servers: "{{ dns }}"
+      networks:
+      - name: "{{ network }}"
+    with_items:
+      - "{{ groups['ham'] }}"
