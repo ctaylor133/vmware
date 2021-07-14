@@ -1,0 +1,40 @@
+---
+- name: VM register
+  hosts: canol
+  gather_facts: false
+  connection: local
+  vars_files: vsphere_vars.yml
+  tasks:
+
+    - name: Register VM to inventory
+      community.vmware.vmware_guest_register_operation:
+        hostname: "{{ vcenter_hostname }}"
+        username: "{{ vcenter_username }}"
+        password: "{{ vcenter_password }}"
+        datacenter: "{{ datacenter }}"
+        validate_certs: False
+        folder: "/vm"
+        esxi_hostname: "{{ hostname }}"
+        name: "{{ inventory_hostname }}"
+        template: false
+        path: "[CAN-OA-Datastore02] {{ inventory_hostname }}/{{ inventory_hostname }}.vmx"
+        state: present
+
+
+    - name: Register VM to DS2
+      community.vmware.vmware_guest_register_operation:
+        hostname: "{{ vcenter_hostname }}"
+        username: "{{ vcenter_username }}"
+        password: "{{ vcenter_password }}"
+        datacenter: "{{ datacenter }}"
+        validate_certs: False
+        folder: "/vm"
+        esxi_hostname: "{{ hostname_2 }}"
+        name: "{{ inventory_hostname }}"
+        template: false
+        path: "[Onelink] {{ inventory_hostname }}/{{ inventory_hostname }}.vmx"
+        state: present
+~
+~
+~
+~
